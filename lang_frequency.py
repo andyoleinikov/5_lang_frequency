@@ -1,10 +1,7 @@
 import sys
 import os
 import re
-import heapq
 from collections import Counter
-
-WORDS_AMOUNT = 10
 
 
 def load_data(filepath):
@@ -15,13 +12,10 @@ def load_data(filepath):
 
 
 def get_most_frequent_words(text):
-    sliced_text = [word.lower() for word in re.split('\W+', text) if word]
-    words_with_frequences = dict(Counter(sliced_text))
-    most_frequent_words = heapq.nlargest(
-        WORDS_AMOUNT,
-        words_with_frequences,
-        key=words_with_frequences.__getitem__
-    )
+    sliced_text = re.findall(r'\w+', text.lower())
+    most_frequent_words = [
+        word[0] for word in Counter(sliced_text).most_common(10)
+    ]
     return most_frequent_words
 
 
@@ -33,7 +27,10 @@ if __name__ == '__main__':
     text_from_file = load_data(filepath)
     most_frequent_words = get_most_frequent_words(text_from_file)
 
-    if most_frequent_words == []:
+    if not most_frequent_words:
         sys.exit('Empty file')
 
-    print('Ten most frequent words: {}'.format(', '.join(most_frequent_words)))
+    print(
+        'Ten most frequent words in descending order:\n{}'
+        .format(', '.join(most_frequent_words))
+    )
