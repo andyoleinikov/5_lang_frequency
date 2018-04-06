@@ -12,10 +12,10 @@ def load_data(filepath):
 
 
 def get_most_frequent_words(text):
-    AMOUNT_OF_WORDS = 10
+    amount_of_words = 10
     sliced_text = re.findall(r'\w+', text.lower())
     most_frequent_words = [
-        word[0] for word in Counter(sliced_text).most_common(AMOUNT_OF_WORDS)
+        word[0] for word in Counter(sliced_text).most_common(amount_of_words)
     ]
     return most_frequent_words
 
