@@ -14,9 +14,9 @@ def load_data(filepath):
 def get_most_frequent_words(text):
     amount_of_words = 10
     sliced_text = re.findall(r'\w+', text.lower())
-    most_frequent_words = [
-        word[0] for word in Counter(sliced_text).most_common(amount_of_words)
-    ]
+    most_frequent_words, dummy_frequency = zip(
+        *Counter(sliced_text).most_common(amount_of_words)
+    )
     return most_frequent_words
 
 
@@ -26,10 +26,11 @@ if __name__ == '__main__':
 
     filepath = sys.argv[1]
     text_from_file = load_data(filepath)
-    most_frequent_words = get_most_frequent_words(text_from_file)
 
-    if not most_frequent_words:
-        sys.exit('Empty file')
+    if not text_from_file:
+        sys.exit('Wrong or empty file')
+
+    most_frequent_words = get_most_frequent_words(text_from_file)
 
     print(
         'Ten most frequent words in descending order:\n{}'
